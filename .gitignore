@@ -29,5 +29,7 @@ Thumbs.db
 /.idea/workspace.xml
 /.idea/gradle.xml
 /.idea/libraries
+/.idea
+
 .DS_Store
 build
