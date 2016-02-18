@@ -29,7 +29,11 @@ Thumbs.db
 /.idea/workspace.xml
 /.idea/gradle.xml
 /.idea/libraries
+<<<<<<< Updated upstream
 /.idea
 
+=======
+.idea/
+>>>>>>> Stashed changes
 .DS_Store
 build
