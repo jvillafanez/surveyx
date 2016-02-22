@@ -28,7 +28,7 @@
     <string name="descriptor_login_button">loginButton</string>
 
     <!-- DIALOGS -->
-    <string name="dialog_gps_title">Activate GPS</string>
+    <string name="dialog_gps_title">Activate Geolocation</string>
     <string name="dialog_gps_message">If you don\'t have your gps enabled, you won\'t be
     able to access to the located surveys.</string>
     <string name="dialog_gps_settings">Settings</string>
