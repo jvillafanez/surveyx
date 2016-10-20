@@ -53,10 +53,14 @@ public class SurveyActivity extends BaseActivity implements ErrorDialogFragment.
     Response.Listener<SurveyModel> mListener = new Response.Listener<SurveyModel>() {
         @Override
         public void onResponse(SurveyModel response) {
+            // Handle response of the server with data of the survey
             mQuestions = response.getQuestions();
+            // Show number of questions
             mTextViewTotal.setText(String.valueOf(mQuestions.length));
+            // Start counter of questions
             updateCounter();
             mDialog.dismiss();
+            // Show question data in its fragment
             Utils.showFragment(mActivity, mSurveyFragment, R.id.container);
         }
     };
@@ -64,7 +68,9 @@ public class SurveyActivity extends BaseActivity implements ErrorDialogFragment.
     Response.ErrorListener mErrorListener = new Response.ErrorListener() {
         @Override
         public void onErrorResponse(VolleyError error) {
+            // Handle error response of the server
             mDialog.dismiss();
+            // Show error dialog
             ErrorDialogFragment errorDialog = ErrorDialogFragment.newInstance(error.toString());
             android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
             errorDialog.show(fragmentManager, "dialog");
@@ -77,9 +83,11 @@ public class SurveyActivity extends BaseActivity implements ErrorDialogFragment.
         setContentView(R.layout.activity_survey);
         initToolbar();
 
+        // Get auth token for further requests
         Bundle extras = getIntent().getExtras();
         mToken = extras.getString("token", null);
 
+        // Get references to UI items
         mButtonNext = (CustomButton) findViewById(R.id.buttonNext);
         mButtonNext.setOnClickListener(this);
         mButtonNext.setEnabled(false);
@@ -88,19 +96,23 @@ public class SurveyActivity extends BaseActivity implements ErrorDialogFragment.
         mTextViewCurrentQuestion = (TextView) findViewById(R.id.textViewCurrentQuestion);
         mTextViewTotal = (TextView) findViewById(R.id.textViewTotal);
 
+        // Init fragment for survey info
         mSurveyFragment = SurveyFragment.newInstance();
 
+        // Show loading survey dialog
         mDialog = InformationDialogFragment.newInstance(R.string.dialog_getting_survey);
         FragmentManager fragmentManager = getSupportFragmentManager();
         mDialog.show(fragmentManager, "dialog");
 
         mActivity = this;
 
+        // Retrieve survey data
         mSurveyId = getIntent().getExtras().getInt(SURVEY_ID);
         getSurvey(mSurveyId);
     }
 
     private void getSurvey(int surveyId) {
+        // Call server web service to retrieve survey data
         mRequestQueue = Volley.newRequestQueue(this);
         GetSurveyRequest surveyRequest = new GetSurveyRequest(surveyId, mListener, mErrorListener);
         mRequestQueue.add(surveyRequest);
@@ -116,6 +128,7 @@ public class SurveyActivity extends BaseActivity implements ErrorDialogFragment.
     }
 
     private void performCancel() {
+        // Show confirmation dialog for cancel survey
         YesNoDialogFragment yesNoDialogFragment = YesNoDialogFragment.newInstance(getString(R.string.dialog_finish_survey));
         android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
         yesNoDialogFragment.show(fragmentManager, "dialog");
@@ -126,6 +139,7 @@ public class SurveyActivity extends BaseActivity implements ErrorDialogFragment.
     }
 
     public void setLabel(boolean isLast) {
+        // In the last question show 'Submit' text instead of 'Next'
         if (isLast) {
             mButtonNext.setText(R.string.global_submit);
             mButtonNext.setContentDescription(getString(R.string.descriptor_survey_submit_button));
@@ -140,6 +154,7 @@ public class SurveyActivity extends BaseActivity implements ErrorDialogFragment.
     }
 
     private void responseSent() {
+        // If last question, show the social networks activity. If not, show next question.
         if (mSurveyFragment.getCurrentQuestion() >= mQuestions.length-1) {
             Intent intent = new Intent(SurveyActivity.this,SocialNetworkActivity.class);
             startActivity(intent);
@@ -151,11 +166,13 @@ public class SurveyActivity extends BaseActivity implements ErrorDialogFragment.
     }
 
     private void updateCounter() {
+        // Increase counter of questions and show it
         int currentQuestion = mSurveyFragment.getCurrentQuestion();
         mTextViewCurrentQuestion.setText(String.valueOf(++currentQuestion));
     }
 
     private void sendResponse() {
+        // Set params for the call to the post survey answer web service
         int questionId = mQuestions[mSurveyFragment.getCurrentQuestion()];
         SurveyPostParams surveyPostParams = new SurveyPostParams();
         surveyPostParams.setToken(mToken);
@@ -164,6 +181,7 @@ public class SurveyActivity extends BaseActivity implements ErrorDialogFragment.
         ArrayList<Integer> responseSelected = mSurveyFragment.getResponseSelected();
         surveyPostParams.setChoice(responseSelected);
 
+        // Listener for the post survey answer request
         Response.Listener<JSONObject> mListener = new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
@@ -183,6 +201,7 @@ public class SurveyActivity extends BaseActivity implements ErrorDialogFragment.
             }
         };
 
+        // Call request
         SendResponseRequest sendResponseRequest = new SendResponseRequest(questionId, surveyPostParams, mListener, mErrorListener);
         mRequestQueue.add(sendResponseRequest);
     }

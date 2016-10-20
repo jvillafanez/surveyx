@@ -75,8 +75,12 @@ public class YesNoDialogFragment extends DialogFragment {
         // Inflate the layout for this fragment
         setCancelable(false);
         View view = inflater.inflate(R.layout.fragment_yes_no, container, false);
+
+        // Set text
         textViewInformation = (TextView) view.findViewById(R.id.textViewMessage);
         textViewInformation.setText(message);
+
+        // Set buttons
         buttonYes = (Button) view.findViewById(R.id.buttonYes);
         buttonYes.setOnClickListener(new View.OnClickListener() {
             @Override

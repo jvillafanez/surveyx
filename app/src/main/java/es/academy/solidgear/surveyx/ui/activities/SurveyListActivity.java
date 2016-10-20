@@ -47,6 +47,10 @@ import es.academy.solidgear.surveyx.ui.adapter.SurveyListAdapter;
 import es.academy.solidgear.surveyx.ui.fragments.ErrorDialogFragment;
 import es.academy.solidgear.surveyx.ui.fragments.InformationDialogFragment;
 
+/**********************************************
+ * SurveyList Activity
+ * Handle main view with the list of surveys
+ */
 public class SurveyListActivity extends BaseActivity implements
         GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener,
         SurveyListAdapter.OnClickSurvey, ErrorDialogFragment.OnClickClose {
@@ -76,6 +80,7 @@ public class SurveyListActivity extends BaseActivity implements
     Response.Listener<SurveysModel> mQuestionnaireListResponse = new Response.Listener<SurveysModel>() {
         @Override
         public void onResponse(SurveysModel response) {
+            // Set new data and show them
             mRequestResponse = response;
             handleResponse();
         }
@@ -84,6 +89,7 @@ public class SurveyListActivity extends BaseActivity implements
     Response.ErrorListener mErrorListener = new Response.ErrorListener() {
         @Override
         public void onErrorResponse(VolleyError error) {
+            // Handle error response from the server. Show error dialog
             mDialog.dismiss();
             ErrorDialogFragment errorDialog = ErrorDialogFragment.newInstance(error.toString());
             android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
@@ -101,9 +107,12 @@ public class SurveyListActivity extends BaseActivity implements
 
         buildGoogleApiClient();
 
+        // Retrieve token from extras and store it for future requests
         Bundle extras = getIntent().getExtras();
         mToken = extras.getString("token", null);
 
+        // Retrieve view from the UI where we are going to put the adapter with the list
+        // of surveys
         mQuestionnaireList = (RecyclerView) findViewById(R.id.questionnaireList);
 
         mQuestionnaireList.setLayoutManager(new LinearLayoutManager(this));
@@ -114,14 +123,18 @@ public class SurveyListActivity extends BaseActivity implements
 
         mGoogleApiClient.connect();
 
+        // First of all, check gps status and store it
         mGpsEnabled = checkGpsEnabled();
 
+        // Check if the user has been asked to enable his gps
         SharedPreferences sharedPref = this.getPreferences(this.MODE_PRIVATE);
         mAskedEnableGps = sharedPref.getBoolean("AskedEnableGps", false);
 
+        // If not, and the gps is not enable, ask him to enable it. Only 1 time.
         if (!mGpsEnabled && !mAskedEnableGps) {
             showEnableGpsDialog();
         } else {
+            // Show dialog of retrieving surveys
             if (mDialog == null) {
                 mDialog = InformationDialogFragment.newInstance(R.string.dialog_getting_surveys);
                 android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
@@ -147,7 +160,9 @@ public class SurveyListActivity extends BaseActivity implements
     }
 
     private void handleResponse() {
+        // Show updated data retrieved from server
         if (mRequestResponse != null && mLastLocation != null && !mSurveyListAlreadyShown) {
+            // If we have location, register the geofences of the surveys and show the surveys' data
             registerGeofences(getGeofences(mRequestResponse.getSurveys()));
             showSurveys(mRequestResponse.getSurveys());
             mSurveyListAlreadyShown = true;
@@ -159,6 +174,8 @@ public class SurveyListActivity extends BaseActivity implements
         }
 
         if (mLastLocation == null) {
+            // If gps is enabled and we don't have location, wait for it. If not, show the surveys
+            // without geofencing data
             if (mGpsEnabled) {
                 mDialog.setMessage(mActivity.getString(R.string.dialog_waiting_location));
             } else {
@@ -168,6 +185,7 @@ public class SurveyListActivity extends BaseActivity implements
     }
 
     private List<GeofenceModel> getGeofences(List<SurveyModel> surveys) {
+        // Return geofences info of the surveys so we can call register geofences with it
         List<GeofenceModel> geofenceModelList = new ArrayList<GeofenceModel>();
 
         for(SurveyModel survey: surveys) {
@@ -197,6 +215,8 @@ public class SurveyListActivity extends BaseActivity implements
     private void showSurveys(List<SurveyModel> surveyModelList) {
         mDialog.dismiss();
 
+        // Loop over list of surveys and remove those already done
+        // and the ones with gps info if we don't have gps enable
         for (int i=0; i<surveyModelList.size(); i++) {
             SurveyModel currentSurvey = surveyModelList.get(i);
             if (currentSurvey.getAlreadyDone()) {
@@ -214,8 +234,10 @@ public class SurveyListActivity extends BaseActivity implements
             }
         }
 
+        // Set adapter with the filtered survey list data
         mQuestionnaireList.setAdapter(new SurveyListAdapter(surveyModelList, this));
 
+        // Add cool animation
         Animation fadeInAnimation = AnimationUtils.loadAnimation(this, R.anim.fade_in);
         mQuestionnaireList.startAnimation(fadeInAnimation);
         fadeInAnimation.setAnimationListener(new Animation.AnimationListener() {
@@ -266,15 +288,17 @@ public class SurveyListActivity extends BaseActivity implements
     }
 
     private void registerGeofences(List<GeofenceModel> geofences) {
-
+        // Google play services are needed
         if (!servicesConnected() || geofences.size() == 0) {
             return;
         }
 
+        // Generate geofences from geofence models to pass them to the builder
         for (GeofenceModel geofence: geofences) {
             mCurrentGeofences.add(geofence.toGeofence());
         }
 
+        // Create geofencing builder with the given geofences
         GeofencingRequest.Builder geofencingRequestBuilder = new GeofencingRequest.Builder();
         geofencingRequestBuilder.addGeofences(mCurrentGeofences);
 
@@ -285,6 +309,7 @@ public class SurveyListActivity extends BaseActivity implements
         // Removes all geofences associated with the given pendingIntent.
         LocationServices.GeofencingApi.removeGeofences(mGoogleApiClient, pendingIntent);
 
+        // Pass geofencing builder to the API
         LocationServices.GeofencingApi.addGeofences(mGoogleApiClient, geofencingRequestBuilder.build(), pendingIntent);
     }
 
@@ -296,6 +321,7 @@ public class SurveyListActivity extends BaseActivity implements
     private void showEnableGpsDialog() {
         final SharedPreferences sharedPref = mActivity.getPreferences(Context.MODE_PRIVATE);
         final SharedPreferences.Editor editor = sharedPref.edit();
+        // If dialog does not exist, create it
         if (mGpsEnabledDialog == null) {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle(R.string.dialog_gps_title);
@@ -403,6 +429,7 @@ public class SurveyListActivity extends BaseActivity implements
 
     @Override
     public void onClickSurvey(SurveyModel survey) {
+        // Show activity with details of the survey
         Intent intent = new Intent(this, SurveyActivity.class);
         intent.putExtra("token", mToken);
         intent.putExtra(SurveyActivity.SURVEY_ID, survey.getId());

@@ -74,8 +74,10 @@ public class ErrorDialogFragment extends DialogFragment {
         // Inflate the layout for this fragment
         setCancelable(false);
         View view = inflater.inflate(R.layout.fragment_error, container, false);
+        // Show text
         textViewInformation = (TextView) view.findViewById(R.id.textViewError);
         textViewInformation.setText(message);
+        // Add button listener
         buttonClose = (Button) view.findViewById(R.id.buttonClose);
         buttonClose.setOnClickListener(new View.OnClickListener() {
             @Override

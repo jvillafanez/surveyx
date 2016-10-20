@@ -21,8 +21,9 @@ import es.academy.solidgear.surveyx.model.LoginModel;
 import es.academy.solidgear.surveyx.services.requests.UserLoginRequest;
 import es.academy.solidgear.surveyx.ui.fragments.ErrorDialogFragment;
 
-/**
- * Created by Siro on 10/12/2014.
+/**********************************************
+ * Login Activity
+ * Handle login functionality.
  */
 public class LoginActivity extends BaseActivity implements ErrorDialogFragment.OnClickClose, View.OnClickListener {
     private static final String AUTH_ERROR = "com.android.volley.AuthFailureError";
@@ -38,14 +39,18 @@ public class LoginActivity extends BaseActivity implements ErrorDialogFragment.O
     private Response.ErrorListener mLoginErrorListener = new Response.ErrorListener() {
         @Override
         public void onErrorResponse(VolleyError error) {
+            // Handle error response from the server
             if (error.toString().equals(AUTH_ERROR)) {
+                // Show authentication error
                 Toast.makeText(mContext, getString(R.string.incorrect_login), Toast.LENGTH_LONG).show();
             } else {
+                // Show other kind of errors
                 ErrorDialogFragment errorDialog = ErrorDialogFragment.newInstance(error.toString());
                 android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
                 errorDialog.show(fragmentManager, "dialog");
             }
 
+            // Re-activate login button
             mLoginButton.setEnabled(true);
             mProgressBar.setVisibility(View.INVISIBLE);
         }
@@ -54,7 +59,8 @@ public class LoginActivity extends BaseActivity implements ErrorDialogFragment.O
     private Response.Listener<LoginModel> mLoginListener = new Response.Listener<LoginModel>() {
         @Override
         public void onResponse(LoginModel response) {
-
+            // Handle correct auth response
+            // Launch MainActivity again with the retrieved token
             mActivity.getApplication();
             Intent intent = new Intent(mContext, MainActivity.class);
             intent.putExtra("token", response.getToken());
@@ -68,14 +74,17 @@ public class LoginActivity extends BaseActivity implements ErrorDialogFragment.O
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        // Don't show action bar on login
         getSupportActionBar().hide();
 
+        // Retrieve login form elements from the UI
         mProgressBar = (ProgressBar) findViewById(R.id.progressBarLogin);
         mUsername = (EditText) findViewById(R.id.userLoginText);
         mPassword = (EditText) findViewById(R.id.passLoginText);
         mLoginButton = (Button) findViewById(R.id.login_button);
         TextView sglogintext = (TextView) findViewById(R.id.sgLoginText);
 
+        // Set typefaces to the text
         Typeface tf = Typeface.createFromAsset(getAssets(), "fonts/KGSecondChancesSketch.ttf");
         sglogintext.setTypeface(tf);
         mLoginButton.setTypeface(tf);
@@ -84,13 +93,17 @@ public class LoginActivity extends BaseActivity implements ErrorDialogFragment.O
         mUsername.setTypeface(tfmuseum);
         mPassword.setTypeface(tfmuseum);
 
+        // Add listener to the login button
         mLoginButton.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View view) {
+        // Check that the clicked element is the login button
         if (view == mLoginButton) {
+            // Disable the button temporarily to avoid double missclick
             mLoginButton.setEnabled(false);
+            // Create login request against the server with the login data
             UserLoginRequest request = new UserLoginRequest(mUsername.getText().toString(),
                     mPassword.getText().toString(), mLoginListener, mLoginErrorListener);
 

@@ -60,6 +60,7 @@ public class SurveyFragment extends Fragment implements RadioGroup.OnCheckedChan
     };
 
     private void getQuestion(int questionId) {
+        // Retrieve question info from the server
         mRequestQueue = Volley.newRequestQueue(this.getActivity());
         GetQuestionRequest questionRequest = new GetQuestionRequest(questionId, mListener, mErrorListener);
         mRequestQueue.add(questionRequest);
@@ -76,10 +77,11 @@ public class SurveyFragment extends Fragment implements RadioGroup.OnCheckedChan
 
         mActivity = (SurveyActivity) getActivity();
 
+        // Generate layout params with padding
         int paddingInPixels = (int) Utils.dimenToPixels(getActivity(), TypedValue.COMPLEX_UNIT_DIP, 20);
-
         PADDING_LAYOUT_PARAMS = new ViewGroup.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, paddingInPixels);
 
+        // Get questions info from parent activity
         mQuestionsId = ((SurveyActivity)getActivity()).getQuestions();
         mQuestions = new QuestionModel[mQuestionsId.length];
 
@@ -93,6 +95,7 @@ public class SurveyFragment extends Fragment implements RadioGroup.OnCheckedChan
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_survey, null);
 
+        // Reference UI Items
         mQuestionTextView = (TextView) root.findViewById(R.id.question_text);
 
         mAnswersOutlet = (RadioGroup) root.findViewById(R.id.answers_outlet);
@@ -110,10 +113,12 @@ public class SurveyFragment extends Fragment implements RadioGroup.OnCheckedChan
     }
 
     public void showNextQuestion() {
+        // Check is not last question
         if (mIteration >= mQuestionsId.length - 1) {
             return;
         }
 
+        // Increment counter and get new Question data
         mIteration++;
         mIsLastQuestion = mIteration == (mQuestionsId.length - 1);
         getQuestion(mQuestionsId[mIteration]);
@@ -121,19 +126,19 @@ public class SurveyFragment extends Fragment implements RadioGroup.OnCheckedChan
 
     private void showQuestion(QuestionModel currentQuestion) {
 
+        // Set new id for radio button
         if ( mIteration > 0 && mQuestions[mIteration-1] != null ) {
             mLastRadioButtonId = mLastRadioButtonId + mQuestions[mIteration-1].getChoices().size();
         }
 
+        // Clear previous answer
         mAnswersOutlet.clearCheck();
         mAnswersOutlet.removeAllViews();
 
         mQuestions[mIteration] = currentQuestion;
-
         mQuestionTextView.setText(currentQuestion.getText());
 
         for (OptionModel option : currentQuestion.getChoices()) {
-
             // Create radio button with answer
             AnswerRadioButton radioButton = new AnswerRadioButton(getActivity(), option.getText());
             radioButton.setTag(option.getId());

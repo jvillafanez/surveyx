@@ -7,6 +7,11 @@ import android.widget.TextView;
 
 import es.academy.solidgear.surveyx.R;
 
+/**********************************************
+ * Base Activity
+ * Handles common behaviour in the activities,
+ * like the toolbar content.
+ */
 public class BaseActivity extends ActionBarActivity {
     protected void initToolbar() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);

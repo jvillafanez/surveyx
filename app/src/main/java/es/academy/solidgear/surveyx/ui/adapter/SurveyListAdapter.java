@@ -35,19 +35,26 @@ public class SurveyListAdapter extends RecyclerView.Adapter<SurveyListAdapter.Su
 
     @Override
     public void onBindViewHolder(final SurveyViewHolder surveyViewHolder, int i) {
+        // When view is bound, define how data is going to be displayed for each survey
+        // Retrieve survey data
         final SurveyModel survey = mSurveyModelList.get(i);
+        // Set content description for test purposes
         surveyViewHolder.layout.setContentDescription("surveyCard" + mSurveyModelList.get(i).getTitle());
+        // Set title
         surveyViewHolder.title.setText(survey.getTitle());
         Typeface typeFace = Typeface.createFromAsset(mActivity.getAssets(), "fonts/MuseoSans-900Italic.otf");
         surveyViewHolder.title.setTypeface(typeFace);
 
+        // Set description
         surveyViewHolder.description.setText(survey.getDescription());
         typeFace = Typeface.createFromAsset(mActivity.getAssets(), "fonts/MuseoSans-100.otf");
         surveyViewHolder.description.setTypeface(typeFace);
+        // Show map when is a survey with coordinates
         if (!survey.hasCoordinates()) {
             surveyViewHolder.map.setVisibility(View.INVISIBLE);
         }
 
+        // Add listener for clicking in the survey
         surveyViewHolder.layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -55,6 +62,7 @@ public class SurveyListAdapter extends RecyclerView.Adapter<SurveyListAdapter.Su
             }
         });
 
+        // Set image using ImageLoader
         ImageLoader imageLoader = ImageRequestManager.getInstance(mActivity).getImageLoader();
         if (survey.getImage() != null) {
             surveyViewHolder.icon.setImageUrl(survey.getImage(), imageLoader);
@@ -63,6 +71,7 @@ public class SurveyListAdapter extends RecyclerView.Adapter<SurveyListAdapter.Su
 
     @Override
     public SurveyViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+        // Inflate layout. Wait to onBiendViewHolder event to set all the info of the survey
         View itemView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.card_survey, viewGroup, false);
 
         return new SurveyViewHolder(itemView);
@@ -77,6 +86,7 @@ public class SurveyListAdapter extends RecyclerView.Adapter<SurveyListAdapter.Su
 
         public SurveyViewHolder(View itemView) {
             super(itemView);
+            // Define references to UI items
             title = (TextView) itemView.findViewById(R.id.textTitle);
             description = (TextView) itemView.findViewById(R.id.textDescription);
             layout = (RelativeLayout) itemView.findViewById(R.id.layoutSurvey);

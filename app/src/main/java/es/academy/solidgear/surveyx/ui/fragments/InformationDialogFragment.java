@@ -60,6 +60,7 @@ public class InformationDialogFragment extends DialogFragment {
         // Inflate the layout for this fragment
         setCancelable(false);
         View view = inflater.inflate(R.layout.fragment_information_dialog, container, false);
+        // Show text
         textViewInformation = (TextView) view.findViewById(R.id.textViewMessage);
         textViewInformation.setText(mMessageId);
         return view;
