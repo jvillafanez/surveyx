@@ -95,15 +95,7 @@
 
             </LinearLayout>
 
-            <CheckBox
-                android:text="@string/remember_me"
-                android:textColor="@color/orange"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/checkBox"
-                android:gravity="center_vertical|center_horizontal|start" />
-
-            <Button
+                       <Button
                     style="@style/loginButton"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
@@ -111,9 +103,9 @@
                     android:textColor="@color/white"
                     android:id="@+id/login_button"
                     android:contentDescription="@string/descriptor_login_button"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
+                    android:layout_marginTop="50dp"
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginRight="30dp"
                     android:textSize="24dp" />
 
             <ProgressBar
