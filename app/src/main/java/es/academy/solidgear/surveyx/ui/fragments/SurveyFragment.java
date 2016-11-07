@@ -122,7 +122,20 @@ public class SurveyFragment extends Fragment implements RadioGroup.OnCheckedChan
         // Increment counter and get new Question data
         mIteration++;
         mIsLastQuestion = mIteration == (mQuestionsId.length - 1);
-        getQuestion(mQuestionsId[mIteration]);
+
+        // function randomize questions
+        ArrayList<Integer> orderedQuestion=new ArrayList<Integer>();
+        ArrayList<Integer> unorderedQuestion=new ArrayList<Integer>();
+
+        for(int i=0;i<mQuestionsId.length;i++){
+            orderedQuestion.add(mQuestionsId[i]);
+        }
+
+        while(orderedQuestion.size()>1){
+            unorderedQuestion.add(orderedQuestion.remove((int)(Math.random()*orderedQuestion.size())));
+        }
+        getQuestion(unorderedQuestion.get(mIteration));
+        // end function randomize question
     }
 
     private void showQuestion(QuestionModel currentQuestion) {
