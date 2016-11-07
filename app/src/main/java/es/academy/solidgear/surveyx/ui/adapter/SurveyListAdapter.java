@@ -12,6 +12,8 @@ import android.widget.TextView;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import es.academy.solidgear.surveyx.R;
@@ -24,6 +26,15 @@ public class SurveyListAdapter extends RecyclerView.Adapter<SurveyListAdapter.Su
     private SurveyListActivity mActivity;
 
     public SurveyListAdapter(List<SurveyModel> questionnaireList, SurveyListActivity activity) {
+
+        if (questionnaireList.size() >0){
+            Collections.sort(questionnaireList, new Comparator<SurveyModel>() {
+                @Override
+                public int compare(final SurveyModel object1, final SurveyModel object2) {
+                    return object1.getTitle().compareTo(object2.getTitle());
+                }
+            });
+        }
         mSurveyModelList = questionnaireList;
         mActivity = activity;
     }
