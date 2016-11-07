@@ -1,0 +1,26 @@
+Track surveys - Test Plan
+
+Criterios de aceptación
+-Debe mostrar los nuevos usuarios registrados por día
+-Debe mostrar las sesiones activas que hay en la aplicación
+-Las estadísticas deben mostrar los datos en tiempo real.
+
+Comprobación de los nuevos usuarios
+1. Se crea un usuario nuevo en la plataforma.
+2. Al día siguiente, comprobar que aparece 1 nuevo usuario en las estadísticas.
+3. Se crean 3 usuarios nuevos en la plataforma al día siguiente de la realización del paso 1.
+4. Al día siguiente, comprobar que aparecen 3 nuevos usuarios en las estadísticas.
+5. Se crean 2 usuarios nuevos en la plataforma al día siguiente de la realización del paso 3.
+6. Al día siguiente, comprobar que aparecen 2 nuevos usuarios en las estadísticas.
+7. Al día siguiente, comprobar que no aparece ningún nuevo usuario en las estadísticas.
+
+Comprobación de las sesiones activas
+1. Se dispone de 3 terminales móviles con la aplicación previamente instalada.
+2. Iniciar la aplicación en uno de estos terminales.
+3. Comprobar en las estadísticas que hay una sesión activa en ese momento.
+4. Iniciar la aplicación en 2 terminales diferentes al utilizado en el paso 2.
+5. Comprobar en las estadísticas que hay 3 sesiones activas en ese momento.
+6. Salir de la aplicación en uno de los 3 terminales utilizados.
+7. Comprobar en las estadísticas que hay 2 sesiones activas en ese momento.
+8. Salir de la aplicación en el resto de terminales utilizados.
+9. Comprobar en las estadísticas que no hay ninguna sesión activa en ese momento.
