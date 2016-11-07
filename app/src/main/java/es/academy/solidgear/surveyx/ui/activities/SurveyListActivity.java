@@ -22,6 +22,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.EditText;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -176,7 +177,7 @@ public class SurveyListActivity extends BaseActivity implements
         if (mLastLocation == null) {
             // If gps is enabled and we don't have location, wait for it. If not, show the surveys
             // without geofencing data
-            if (mGpsEnabled) {
+            if (mGpsEnabled ) {
                 mDialog.setMessage(mActivity.getString(R.string.dialog_waiting_location));
             } else {
                 showSurveys(mRequestResponse.getSurveys());
@@ -219,6 +220,10 @@ public class SurveyListActivity extends BaseActivity implements
         // and the ones with gps info if we don't have gps enable
         for (int i=0; i<surveyModelList.size(); i++) {
             SurveyModel currentSurvey = surveyModelList.get(i);
+            Location surveyLocation= new Location("");
+            surveyLocation.setLatitude(currentSurvey.getLatitude());
+            surveyLocation.setLongitude(currentSurvey.getLongitude());
+            float distanceToSurvey = mLastLocation.distanceTo(surveyLocation);
             if (currentSurvey.getAlreadyDone()) {
             /* Remove done survey */
                 surveyModelList.remove(i);
@@ -231,6 +236,12 @@ public class SurveyListActivity extends BaseActivity implements
                     surveyModelList.remove(i);
                     i--;
                 }
+            }
+            //Compruebo si tiene coordenadas y si tengo ultima localizacion conocida
+            //Y actualizo  el valor de la encuesta actual
+            else if(currentSurvey.hasCoordinates() && mLastLocation !=null && distanceToSurvey>100){
+              
+                currentSurvey.setDistanceToCurrentPosition(distanceToSurvey);
             }
         }
 
