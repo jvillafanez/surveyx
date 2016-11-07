@@ -429,11 +429,27 @@ public class SurveyListActivity extends BaseActivity implements
 
     @Override
     public void onClickSurvey(SurveyModel survey) {
-        // Show activity with details of the survey
-        Intent intent = new Intent(this, SurveyActivity.class);
-        intent.putExtra("token", mToken);
-        intent.putExtra(SurveyActivity.SURVEY_ID, survey.getId());
-        startActivity(intent);
+        Location surveyLocation = new Location("");
+        surveyLocation.setLongitude(survey.getLongitude());
+        surveyLocation.setLatitude(survey.getLatitude());
+
+        survey.setDistanceToCurrentPosition(mLastLocation.distanceTo(surveyLocation));
+
+        if(survey.getDistanceToCurrentPosition() > 100){
+
+            Uri gmmIntentUri = Uri.parse("geo:" + survey.getLatitude() + ", " + survey.getLongitude());
+            Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+            mapIntent.setPackage("com.google.android.apps.maps");
+            startActivity(mapIntent);
+
+        } else {
+
+            // Show activity with details of the survey
+            Intent intent = new Intent(this, SurveyActivity.class);
+            intent.putExtra("token", mToken);
+            intent.putExtra(SurveyActivity.SURVEY_ID, survey.getId());
+            startActivity(intent);
+        }
     }
 
     @Override
