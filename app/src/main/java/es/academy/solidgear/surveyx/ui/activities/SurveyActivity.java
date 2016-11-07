@@ -134,8 +134,12 @@ public class SurveyActivity extends BaseActivity implements ErrorDialogFragment.
         yesNoDialogFragment.show(fragmentManager, "dialog");
     }
 
-    public void enableButton(boolean enabled) {
-        mButtonNext.setEnabled(enabled);
+    public void enableButton(boolean enabled)
+    {
+        if(enabled == false)
+        {
+            mButtonNext.setEnabled(enabled);
+        }
     }
 
     public void setLabel(boolean isLast) {
