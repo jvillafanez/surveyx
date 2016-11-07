@@ -6,6 +6,12 @@ import android.os.Bundle;
 
 import es.academy.solidgear.surveyx.R;
 
+import com.crashlytics.android.answers.Answers;
+import com.crashlytics.android.answers.LoginEvent;
+import io.fabric.sdk.android.Fabric;
+
+
+
 /**********************************************
  * Main Activity
  * Entry point of the app.
@@ -18,7 +24,12 @@ public class MainActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Fabric.with(this, new Answers());
         setContentView(R.layout.activity_main);
+
+        /*Answers.getInstance().logLogin(new LoginEvent()
+                .putMethod("Digits")
+                .putSuccess(true));*/
     }
 
     @Override
