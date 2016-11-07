@@ -5,14 +5,19 @@ Criterios de aceptación
 -Debe mostrar las sesiones activas que hay en la aplicación
 -Las estadísticas deben mostrar los datos en tiempo real.
 
+
+Acceso a Fabric Answers
+Login: bugkillersg@gmail.com
+Pass:  tonto123
+Dirección: fabric.io/dashboard
+
 Comprobación de los nuevos usuarios
-1. Se crea un usuario nuevo en la plataforma.
-2. Al día siguiente, comprobar que aparece 1 nuevo usuario en las estadísticas.
-3. Se crean 3 usuarios nuevos en la plataforma al día siguiente de la realización del paso 1.
-4. Al día siguiente, comprobar que aparecen 3 nuevos usuarios en las estadísticas.
-5. Se crean 2 usuarios nuevos en la plataforma al día siguiente de la realización del paso 3.
-6. Al día siguiente, comprobar que aparecen 2 nuevos usuarios en las estadísticas.
-7. Al día siguiente, comprobar que no aparece ningún nuevo usuario en las estadísticas.
+1. Se accede con un usuario nuevo a la aplicación.
+2. Al día siguiente se comprueba en la plataforma que hay un nuevo usuario creado.
+3. Se accede con tres usuarios nuevos a la aplicación.
+4. Al día siguiente se comprueba en la plataforma que hay tres nuevos usuarios creados.
+5. Se accede con dos usuarios nuevos a la aplicación.
+6. Al día siguiente se comprueba en la plataforma que hay dos nuevos usuarios creados.
 
 Comprobación de las sesiones activas
 1. Se dispone de 3 terminales móviles con la aplicación previamente instalada.
