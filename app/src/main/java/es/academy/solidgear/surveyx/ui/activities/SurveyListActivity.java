@@ -384,6 +384,7 @@ public class SurveyListActivity extends BaseActivity implements
             //mAuthManager.setAuthCredentials("", null);
             final SharedPreferences.Editor editor = mActivity.getPreferences(mActivity.MODE_PRIVATE).edit();
             editor.remove("AskedEnableGps");
+            editor.remove("token");
             editor.commit();
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);

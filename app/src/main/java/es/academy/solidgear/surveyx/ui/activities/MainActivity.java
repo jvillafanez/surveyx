@@ -1,8 +1,11 @@
 package es.academy.solidgear.surveyx.ui.activities;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 
 import es.academy.solidgear.surveyx.R;
 
@@ -14,6 +17,8 @@ import es.academy.solidgear.surveyx.R;
  */
 
 public class MainActivity extends Activity {
+
+    private Context mContext = this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,8 +33,13 @@ public class MainActivity extends Activity {
         // Try to retrieve token from intent extras (Not a better method implemented yet)
         Bundle extras = getIntent().getExtras();
         String token = null;
+
+        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(mContext);
+        String tokenStore = settings.getString("token", null);
+
         if (extras != null) {
-            token = extras.getString("token", null); /** TODO: Read token when it will be stored **/
+            if(tokenStore != null)
+            token = tokenStore;
         }
 
         // If there's no token, redirect to login. If there is a token, redirect to the survey list
