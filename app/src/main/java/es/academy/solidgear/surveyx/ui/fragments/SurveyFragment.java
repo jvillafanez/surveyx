@@ -16,6 +16,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.Volley;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import es.academy.solidgear.surveyx.R;
 import es.academy.solidgear.surveyx.managers.Utils;
@@ -138,7 +139,14 @@ public class SurveyFragment extends Fragment implements RadioGroup.OnCheckedChan
         mQuestions[mIteration] = currentQuestion;
         mQuestionTextView.setText(currentQuestion.getText());
 
-        for (OptionModel option : currentQuestion.getChoices()) {
+        List<OptionModel> orderAnswer = currentQuestion.getChoices();
+        List<OptionModel> randomAnswer = new ArrayList<>();
+
+        while(orderAnswer.size()>0){
+            randomAnswer.add(orderAnswer.remove((int) (Math.random()*orderAnswer.size())));
+        }
+
+        for (OptionModel option : randomAnswer) {
             // Create radio button with answer
             AnswerRadioButton radioButton = new AnswerRadioButton(getActivity(), option.getText());
             radioButton.setTag(option.getId());
