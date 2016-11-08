@@ -35,6 +35,7 @@ public class SurveyFragment extends Fragment implements RadioGroup.OnCheckedChan
 
     private ArrayList<Integer> mResponseSelected;
     private int[] mQuestionsId;
+    private int[] mQuestionsIdRandom;
     private QuestionModel[] mQuestions;
 
     private int mLastRadioButtonId = 0;
@@ -84,12 +85,27 @@ public class SurveyFragment extends Fragment implements RadioGroup.OnCheckedChan
 
         // Get questions info from parent activity
         mQuestionsId = ((SurveyActivity)getActivity()).getQuestions();
-        mQuestions = new QuestionModel[mQuestionsId.length];
+        //Function Randomize Questions
+        mQuestionsIdRandom=new int[mQuestionsId.length];
+        int[] questionUsed=new int[mQuestionsId.length];
+        for(int i=0;i<mQuestionsId.length;i++){
+            questionUsed[i]=0;
+        }
+        int index=0;
+        for (int i=0; i < mQuestionsId.length; i++){
+            do{
+                index = (int)(Math.random()*mQuestionsId.length);}
+            while (questionUsed[index]==1);
+            mQuestionsIdRandom[i] = mQuestionsId[index];
+            questionUsed[index]=1;
+        }
+
+        mQuestions = new QuestionModel[mQuestionsIdRandom.length];
 
         mResponseSelected = new ArrayList<Integer>();
 
         // show first question
-        getQuestion(mQuestionsId[0]);
+        getQuestion(mQuestionsIdRandom[0]);
     }
 
     @Override
@@ -115,27 +131,14 @@ public class SurveyFragment extends Fragment implements RadioGroup.OnCheckedChan
 
     public void showNextQuestion() {
         // Check is not last question
-        if (mIteration >= mQuestionsId.length - 1) {
+        if (mIteration >= mQuestionsIdRandom.length - 1) {
             return;
         }
 
         // Increment counter and get new Question data
         mIteration++;
-        mIsLastQuestion = mIteration == (mQuestionsId.length - 1);
-
-        // function randomize questions
-        ArrayList<Integer> orderedQuestion=new ArrayList<Integer>();
-        ArrayList<Integer> unorderedQuestion=new ArrayList<Integer>();
-
-        for(int i=0;i<mQuestionsId.length;i++){
-            orderedQuestion.add(mQuestionsId[i]);
-        }
-
-        while(orderedQuestion.size()>1){
-            unorderedQuestion.add(orderedQuestion.remove((int)(Math.random()*orderedQuestion.size())));
-        }
-        getQuestion(unorderedQuestion.get(mIteration));
-        // end function randomize question
+        mIsLastQuestion = mIteration == (mQuestionsIdRandom.length - 1);
+        getQuestion(mQuestionsIdRandom[mIteration]);
     }
 
     private void showQuestion(QuestionModel currentQuestion) {
