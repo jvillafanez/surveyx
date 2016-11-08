@@ -1,0 +1,6 @@
+1- Hacer encuesta sin saltarse ninguna
+2- Saltar alguna pregunta
+3- Saltar preguntas obligatorias
+4- Saltar todas la preguntas opcionales 
+5- Saltar pregunta y cancelar encuesta
+6- Saltar pregunta y cerrar aplicacion
