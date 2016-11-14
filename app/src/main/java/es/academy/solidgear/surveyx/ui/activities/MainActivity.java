@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.Log;
 
 import es.academy.solidgear.surveyx.R;
 
@@ -37,9 +38,12 @@ public class MainActivity extends Activity {
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(mContext);
         String tokenStore = settings.getString("token", null);
 
-        if (extras != null) {
-            if(tokenStore != null)
+        if(tokenStore != null) {
             token = tokenStore;
+        }
+
+        if (extras != null) {
+            token = extras.getString("token", tokenStore);
         }
 
         // If there's no token, redirect to login. If there is a token, redirect to the survey list
