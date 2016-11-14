@@ -1,5 +1,6 @@
 package es.academy.solidgear.surveyx.ui.adapter;
 
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -66,6 +67,9 @@ public class SurveyListAdapter extends RecyclerView.Adapter<SurveyListAdapter.Su
         ImageLoader imageLoader = ImageRequestManager.getInstance(mActivity).getImageLoader();
         if (survey.getImage() != null) {
             surveyViewHolder.icon.setImageUrl(survey.getImage(), imageLoader);
+        }
+        if(survey.getDistanceToCurrentPosition()>100){
+            surveyViewHolder.layout.setBackgroundColor(Color.GRAY);
         }
     }
 

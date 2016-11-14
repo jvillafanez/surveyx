@@ -220,10 +220,10 @@ public class SurveyListActivity extends BaseActivity implements
         // and the ones with gps info if we don't have gps enable
         for (int i=0; i<surveyModelList.size(); i++) {
             SurveyModel currentSurvey = surveyModelList.get(i);
-            Location surveyLocation= new Location("");
-            surveyLocation.setLatitude(currentSurvey.getLatitude());
-            surveyLocation.setLongitude(currentSurvey.getLongitude());
-            float distanceToSurvey = mLastLocation.distanceTo(surveyLocation);
+                        Location surveyLocation= new Location("");
+                        surveyLocation.setLatitude(currentSurvey.getLatitude());
+                        surveyLocation.setLongitude(currentSurvey.getLongitude());
+                        float distanceToSurvey = mLastLocation.distanceTo(surveyLocation);
             if (currentSurvey.getAlreadyDone()) {
             /* Remove done survey */
                 surveyModelList.remove(i);
@@ -240,8 +240,9 @@ public class SurveyListActivity extends BaseActivity implements
             //Compruebo si tiene coordenadas y si tengo ultima localizacion conocida
             //Y actualizo  el valor de la encuesta actual
             else if(currentSurvey.hasCoordinates() && mLastLocation !=null && distanceToSurvey>100){
-              
+
                 currentSurvey.setDistanceToCurrentPosition(distanceToSurvey);
+
             }
         }
 
