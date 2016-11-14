@@ -2,10 +2,13 @@ package es.academy.solidgear.surveyx.ui.activities;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -32,6 +35,7 @@ public class LoginActivity extends BaseActivity implements ErrorDialogFragment.O
     private Button mLoginButton;
     private EditText mUsername;
     private EditText mPassword;
+    private CheckBox mCheckBox;
 
     private LoginActivity mActivity = this;
     private Context mContext = this;
@@ -64,6 +68,14 @@ public class LoginActivity extends BaseActivity implements ErrorDialogFragment.O
             mActivity.getApplication();
             Intent intent = new Intent(mContext, MainActivity.class);
             intent.putExtra("token", response.getToken());
+
+            if(mCheckBox.isChecked()) {
+                SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(mContext);
+                SharedPreferences.Editor editor = settings.edit();
+                editor.putString("token", response.getToken());
+                editor.commit();
+            }
+
             startActivity(intent);
             finish();
         }
@@ -83,6 +95,7 @@ public class LoginActivity extends BaseActivity implements ErrorDialogFragment.O
         mPassword = (EditText) findViewById(R.id.passLoginText);
         mLoginButton = (Button) findViewById(R.id.login_button);
         TextView sglogintext = (TextView) findViewById(R.id.sgLoginText);
+        mCheckBox = (CheckBox) findViewById(R.id.checkBox);
 
         // Set typefaces to the text
         Typeface tf = Typeface.createFromAsset(getAssets(), "fonts/KGSecondChancesSketch.ttf");

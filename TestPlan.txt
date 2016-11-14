@@ -1,0 +1,5 @@
+1- Acceder con usuario sin hacer check en "Mantenerme autenticado"
+2- Cerrar y volver a accerder
+3- Acceder con usurio haciendo check en "Mantenerme autenticado"
+4- Cierrar la aplicación  y vueler a accerder (repetidamente) 
+5- Matar la aplicacion y probar el acceso

@@ -12,6 +12,7 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -385,7 +386,14 @@ public class SurveyListActivity extends BaseActivity implements
             final SharedPreferences.Editor editor = mActivity.getPreferences(mActivity.MODE_PRIVATE).edit();
             editor.remove("AskedEnableGps");
             editor.commit();
+
+            SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
+            SharedPreferences.Editor edit = settings.edit();
+            edit.putString("token", null);
+            edit.commit();
+
             Intent intent = new Intent(this, MainActivity.class);
+            intent.putExtra("token", (String)null);
             startActivity(intent);
             finish();
         } else if (id == R.id.action_refresh) {

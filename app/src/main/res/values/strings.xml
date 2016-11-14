@@ -60,5 +60,6 @@
     <string name="social_networks_facebook_error">Facebook app isn\'t found</string>
     <string name="social_networks_facebook_button">Share on Facebook</string>
     <string name="social_networks_twitter_button">Share on Twitter</string>
+    <string name="remember_me">Remember me</string>
 
 </resources>
