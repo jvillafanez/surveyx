@@ -7,7 +7,9 @@ import com.google.android.gms.location.Geofence;
  */
 public class GeofenceModel {
     private final String mId;
+    /** Latitude in doubles */
     private final double mLatitude;
+    /** Longitude in double */
     private final double mLongitude;
     private final float mRadius;
     private long mExpirationDuration;
