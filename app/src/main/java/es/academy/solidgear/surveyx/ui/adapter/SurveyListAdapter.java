@@ -70,6 +70,7 @@ public class SurveyListAdapter extends RecyclerView.Adapter<SurveyListAdapter.Su
         }
         if(survey.getDistanceToCurrentPosition()>100){
             surveyViewHolder.layout.setBackgroundColor(Color.GRAY);
+            surveyViewHolder.description.append(" Distancia hasta la encuesta: "+survey.getDistanceToCurrentPosition());
         }
     }
 
