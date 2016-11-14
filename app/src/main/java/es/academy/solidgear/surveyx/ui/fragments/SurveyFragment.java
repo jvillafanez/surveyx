@@ -6,6 +6,8 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -31,6 +33,7 @@ public class SurveyFragment extends Fragment implements RadioGroup.OnCheckedChan
 
     private ViewGroup.LayoutParams PADDING_LAYOUT_PARAMS;
     private RadioGroup mAnswersOutlet;
+    private ArrayList<CheckBox> mAnswersCheck = new ArrayList<>();
     private TextView mQuestionTextView;
 
     private ArrayList<Integer> mResponseSelected;
@@ -163,10 +166,21 @@ public class SurveyFragment extends Fragment implements RadioGroup.OnCheckedChan
         }
 
         for (OptionModel option : randomAnswer) {
-            // Create radio button with answer
-            AnswerRadioButton radioButton = new AnswerRadioButton(getActivity(), option.getText());
-            radioButton.setTag(option.getId());
-            mAnswersOutlet.addView(radioButton);
+            if(currentQuestion.getType().equals("select-multiple")){
+                // Create checkbox with answer
+                CheckBox checkBox = new CheckBox(getActivity());
+                checkBox.setText(option.getText());
+                checkBox.setTag(option.getId());
+                checkBox.setOnCheckedChangeListener(new myCheckBoxChangeClicker());
+                mAnswersCheck.add(checkBox);
+                mAnswersOutlet.addView(checkBox);
+
+            }else {
+                // Create radio button with answer
+                AnswerRadioButton radioButton = new AnswerRadioButton(getActivity(), option.getText());
+                radioButton.setTag(option.getId());
+                mAnswersOutlet.addView(radioButton);
+            }
 
             // Add padding for each answer
             // There is a bug in API 16 and below that with padding method of RadioButton
@@ -193,4 +207,36 @@ public class SurveyFragment extends Fragment implements RadioGroup.OnCheckedChan
         mActivity.enableButton(enabled);
         mActivity.setLabel(mIsLastQuestion);
     }
+
+
+    class myCheckBoxChangeClicker implements CheckBox.OnCheckedChangeListener
+    {
+
+        @Override
+        public void onCheckedChanged(CompoundButton buttonView,
+                                     boolean isChecked) {
+            mActivity.enableButton(isChecked);
+            mActivity.setLabel(mIsLastQuestion);
+            mResponseSelected.clear();
+            for(CheckBox check : mAnswersCheck ){
+                if(check.isChecked() == true){
+                    mResponseSelected.add((int)check.getTag());
+                }
+            }
+
+            if(!isChecked) {
+                for(CheckBox check : mAnswersCheck ){
+                    if(check.isChecked() == true){
+                        mActivity.enableButton(true);
+                        break;
+                    }
+                }
+
+
+            }
+        }
+    }
+
 }
+
+
