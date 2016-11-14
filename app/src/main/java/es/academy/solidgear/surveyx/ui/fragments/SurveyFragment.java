@@ -158,6 +158,7 @@ public class SurveyFragment extends Fragment implements RadioGroup.OnCheckedChan
         mQuestions[mIteration] = currentQuestion;
         mQuestionTextView.setText(currentQuestion.getText());
 
+
         List<OptionModel> orderAnswer = currentQuestion.getChoices();
         List<OptionModel> randomAnswer = new ArrayList<>();
 
