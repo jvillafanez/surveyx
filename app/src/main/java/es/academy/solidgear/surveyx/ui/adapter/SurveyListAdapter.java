@@ -48,6 +48,9 @@ public class SurveyListAdapter extends RecyclerView.Adapter<SurveyListAdapter.Su
 
         // Set description
         surveyViewHolder.description.setText(survey.getDescription());
+        if(survey.getDistanceToCurrentPosition()>100){
+            surveyViewHolder.description.append(" Distancia hasta la encuesta: "+survey.getDistanceToCurrentPosition());
+        }
         typeFace = Typeface.createFromAsset(mActivity.getAssets(), "fonts/MuseoSans-100.otf");
         surveyViewHolder.description.setTypeface(typeFace);
         // Show map when is a survey with coordinates
