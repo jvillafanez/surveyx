@@ -1,0 +1,26 @@
+Track survey
+cuestion order
+Comprobar el orden aleatorio de las preguntas
+comprobar el orden aleatorio de las opciones
+comprobar el orden alfabetico de las encuenstas
+
+comprobacion del orden aleatorio de las preguntas
+1.-Abro la primera encuesta que me aparece
+2.-Apunto en una lista cada una de las preguntas que aparecen.
+3.-Comrpuebo el numero de preguntas que me ofrece la encuesta
+4.-Reabro la encuesta tantas veces como preguntas hay y apunto las preguntas en orden.
+5.-Evaluo que no haya ninguna ordenacion igual a otra
+
+comprobar el orden en el que aparecen las opciones de las preguntas
+1.-Abro una encuesta concreta.
+2.-Para cada pregunta apunto el orden de cada una de las respuestas 
+3.-compruebo el nuemro de preguntas que tiene la encuesta
+4.-Reabro la encuesta tantas veces como preguntas hay y apunto para cada pregunta las respuestas en orden.
+5.-Evaluo que el orden de cada pregunta sea distinto 
+
+comprobar el orden alfabetico del listado 
+1.-Abro la aplicacion
+2.-Apunto la lista de las encuestas que hay y compruebo que estan en orden alfabetico
+3.-En caso de estarlo hago una lista con ellas y cierro la aplicacion.
+4.-Al reabrir la aplicacion compruebo que vuelve a aparecer lo mismo.
+5.-Si aparece lo mismo doy por hecho que esta en orden alfabetico

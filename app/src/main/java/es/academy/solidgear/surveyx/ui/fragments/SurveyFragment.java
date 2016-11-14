@@ -18,6 +18,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.Volley;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import es.academy.solidgear.surveyx.R;
 import es.academy.solidgear.surveyx.managers.Utils;
@@ -37,6 +38,7 @@ public class SurveyFragment extends Fragment implements RadioGroup.OnCheckedChan
 
     private ArrayList<Integer> mResponseSelected;
     private int[] mQuestionsId;
+    private int[] mQuestionsIdRandom;
     private QuestionModel[] mQuestions;
 
     private int mLastRadioButtonId = 0;
@@ -86,12 +88,27 @@ public class SurveyFragment extends Fragment implements RadioGroup.OnCheckedChan
 
         // Get questions info from parent activity
         mQuestionsId = ((SurveyActivity)getActivity()).getQuestions();
-        mQuestions = new QuestionModel[mQuestionsId.length];
+        //Function Randomize Questions
+        mQuestionsIdRandom=new int[mQuestionsId.length];
+        int[] questionUsed=new int[mQuestionsId.length];
+        for(int i=0;i<mQuestionsId.length;i++){
+            questionUsed[i]=0;
+        }
+        int index=0;
+        for (int i=0; i < mQuestionsId.length; i++){
+            do{
+                index = (int)(Math.random()*mQuestionsId.length);}
+            while (questionUsed[index]==1);
+            mQuestionsIdRandom[i] = mQuestionsId[index];
+            questionUsed[index]=1;
+        }
+
+        mQuestions = new QuestionModel[mQuestionsIdRandom.length];
 
         mResponseSelected = new ArrayList<Integer>();
 
         // show first question
-        getQuestion(mQuestionsId[0]);
+        getQuestion(mQuestionsIdRandom[0]);
     }
 
     @Override
@@ -117,14 +134,14 @@ public class SurveyFragment extends Fragment implements RadioGroup.OnCheckedChan
 
     public void showNextQuestion() {
         // Check is not last question
-        if (mIteration >= mQuestionsId.length - 1) {
+        if (mIteration >= mQuestionsIdRandom.length - 1) {
             return;
         }
 
         // Increment counter and get new Question data
         mIteration++;
-        mIsLastQuestion = mIteration == (mQuestionsId.length - 1);
-        getQuestion(mQuestionsId[mIteration]);
+        mIsLastQuestion = mIteration == (mQuestionsIdRandom.length - 1);
+        getQuestion(mQuestionsIdRandom[mIteration]);
     }
 
     private void showQuestion(QuestionModel currentQuestion) {
@@ -141,7 +158,15 @@ public class SurveyFragment extends Fragment implements RadioGroup.OnCheckedChan
         mQuestions[mIteration] = currentQuestion;
         mQuestionTextView.setText(currentQuestion.getText());
 
-        for (OptionModel option : currentQuestion.getChoices()) {
+
+        List<OptionModel> orderAnswer = currentQuestion.getChoices();
+        List<OptionModel> randomAnswer = new ArrayList<>();
+
+        while(orderAnswer.size()>0){
+            randomAnswer.add(orderAnswer.remove((int) (Math.random()*orderAnswer.size())));
+        }
+
+        for (OptionModel option : randomAnswer) {
             if(currentQuestion.getType().equals("select-multiple")){
                 // Create checkbox with answer
                 CheckBox checkBox = new CheckBox(getActivity());
