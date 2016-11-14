@@ -221,7 +221,7 @@ public class SurveyListActivity extends BaseActivity implements
             SurveyModel currentSurvey = surveyModelList.get(i);
             if (currentSurvey.getAlreadyDone()) {
             /* Remove done survey */
-                surveyModelList.remove(i);
+               surveyModelList.remove(i);
                 i--;
                 continue;
             }
