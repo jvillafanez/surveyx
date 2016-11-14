@@ -1,0 +1,4 @@
+1. Loguearme en la aplicación, con la geolocalización activa
+2. Comprobar el listado de encuestas disponibles
+3. Con las opciones de desarrollo, modificar la posición del móvil
+4. Abrir de nuevo la aplicación y comprobar las nuevas encuestas disponibles
