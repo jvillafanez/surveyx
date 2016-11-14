@@ -136,10 +136,7 @@ public class SurveyActivity extends BaseActivity implements ErrorDialogFragment.
 
     public void enableButton(boolean enabled)
     {
-        if(enabled == false)
-        {
-            mButtonNext.setEnabled(enabled);
-        }
+        mButtonNext.setEnabled(enabled);
     }
 
     public void setLabel(boolean isLast) {
@@ -236,7 +233,8 @@ public class SurveyActivity extends BaseActivity implements ErrorDialogFragment.
         }
     }
 
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
         performCancel();
         return true;
     }
