@@ -447,7 +447,7 @@ public class SurveyListActivity extends BaseActivity implements
 
         survey.setDistanceToCurrentPosition(mLastLocation.distanceTo(surveyLocation));
 
-        if(survey.getDistanceToCurrentPosition() > 100){
+        if(survey.hasCoordinates() && (survey.getDistanceToCurrentPosition() > 100)){
 
             Uri gmmIntentUri = Uri.parse("geo:" + survey.getLatitude() + ", " + survey.getLongitude());
             Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
